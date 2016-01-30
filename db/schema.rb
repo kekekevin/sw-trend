@@ -46,6 +46,7 @@ ActiveRecord::Schema.define(version: 20160128053028) do
   create_table "trends", force: :cascade do |t|
     t.integer  "origin_id"
     t.integer  "destination_id"
+    t.date     "date"
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
   end
