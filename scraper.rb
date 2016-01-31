@@ -4,9 +4,7 @@ agent = Mechanize.new
 
 page = agent.get('http://www.southwest.com/flight')
 
-puts page.body.class
-
-form = body.form 'buildItineraryForm'
+form = page.form 'buildItineraryForm'
 
 form.radiobutton_with(name: /twoWayTrip/, value: /false/).check
 form.radiobutton_with(name: /fareType/, value: /POINTS/).check
