@@ -12,7 +12,7 @@ class FlightScraperJob < ActiveJob::Base
 
     rows.each do |r|
       prices = r.css('.price_column .product_price')
-      Flight.find_or_create_by(
+      flight = Flight.find_or_create_by(
           departure: Time.parse(r.css('.depart_column .bugText').text.strip.gsub(/\s+/, ' '), trend.date.beginning_of_day),
           arrival: Time.parse(r.css('.arrive_column .bugText').text.strip.gsub(/\s+/, ' '), trend.date.beginning_of_day),
           number: r.css('.flight_column .swa_text_flightNumber .bugText').text.match(/[0-9]+/)[0]
@@ -20,9 +20,9 @@ class FlightScraperJob < ActiveJob::Base
         f.trend = trend
         f.routing = r.css('.routing_column .bugText').text.gsub(/\(opens popup\)/, '').strip
         f.duration = r.css('.duration.bugText').text
-        f.price_points << PricePoint.create(price: prices[2].text.gsub(/,/, '').strip, datetime: DateTime.now)
-        f.save
       end
+      flight.price_points << PricePoint.create(price: prices[2].text.gsub(/,/, '').strip, datetime: DateTime.now)
+      flight.save
     end
   end
 
